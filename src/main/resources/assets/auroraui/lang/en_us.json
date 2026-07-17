@@ -1,0 +1,13 @@
+{
+  "itemGroup.auroraui": "AuroraUI Tab",
+  "block.auroraui.example_block": "Example Block",
+  "item.auroraui.example_item": "Example Item",
+
+  "auroraui.configuration.title": "AuroraUI Configs",
+  "auroraui.configuration.section.auroraui.common.toml": "AuroraUI Configs",
+  "auroraui.configuration.section.auroraui.common.toml.title": "AuroraUI Configs",
+  "auroraui.configuration.items": "Item List",
+  "auroraui.configuration.logDirtBlock": "Log Dirt Block",
+  "auroraui.configuration.magicNumberIntroduction": "Magic Number Text",
+  "auroraui.configuration.magicNumber": "Magic Number"
+}
