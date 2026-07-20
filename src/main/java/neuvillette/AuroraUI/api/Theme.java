@@ -34,24 +34,22 @@ public class Theme {
     public RGBColor color_error_content;
 
     //Radius
-    //0-2 rem
     //Boxes
-    public double radius_box;
+    public int radius_box;
     //Fields
-    public double radius_field;
+    public int radius_field;
     //Selectors
-    public double radius_selector;
+    public int radius_selector;
 
     //Sizes
     //xs: 6*base sm:8*base md:10*base lg:12*base xl:14*base
     //Fields
-    public double size_field;
+    public int size_field;
     //Selectors
-    public double size_selector;
+    public int size_selector;
 
     //Border Width
-    //0.5-2 px
-    public double border;
+    public int border;
 
     public Theme(){
         color_base_100 = RGBColor.Oklch(97, 0.014, 343.198);
@@ -75,13 +73,13 @@ public class Theme {
         color_error = RGBColor.Oklch(63, 0.237, 25.331);
         color_error_content = RGBColor.Oklch(97, 0.013, 17.38);
 
-        radius_box = 1;
-        radius_field = 0.25;
-        radius_selector = 0.25;
+        radius_box = 4;
+        radius_field = 1;
+        radius_selector = 1;
 
-        size_field = 0.25;
-        size_selector = 0.25;
+        size_field = 4;
+        size_selector = 4;
 
-        border = 1.0;
+        border = 1;
     }
 }
