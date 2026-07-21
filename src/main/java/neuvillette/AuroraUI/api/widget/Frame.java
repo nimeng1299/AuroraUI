@@ -16,10 +16,8 @@ public class Frame extends BaseWidget<Frame> {
         super(rect, message);
     }
 
-
-
-    public Frame(BaseWidget<?> parent, Rect rect, Component message) {
-        super(parent, rect, message);
+    public Frame(BaseWidget<?> parent, Component message) {
+        super(parent, message);
     }
 
     @Override

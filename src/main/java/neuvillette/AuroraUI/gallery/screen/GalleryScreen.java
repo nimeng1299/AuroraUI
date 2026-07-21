@@ -10,6 +10,8 @@ import neuvillette.AuroraUI.api.Theme;
 import neuvillette.AuroraUI.api.color.Colors;
 import neuvillette.AuroraUI.api.screen.AuroraScreen;
 import neuvillette.AuroraUI.api.widget.Frame;
+import neuvillette.AuroraUI.api.widget.layout.Constraint;
+import neuvillette.AuroraUI.api.widget.layout.Layout;
 import org.jetbrains.annotations.NotNull;
 
 public class GalleryScreen extends AuroraScreen {
@@ -44,14 +46,26 @@ public class GalleryScreen extends AuroraScreen {
 
 
 
-        Frame frame = new Frame(rect, Component.literal("Frame"))
+        Frame frame = newFrame(rect, Component.literal("Frame"));
+
+        Layout layout = new Layout(frame, Component.literal("Frames"))
                 .setTheme(new Theme())
-                .setPadding(5)
-                .addChild((baseWidget) ->
-                        new Frame(baseWidget.getRect(), Component.literal("Frames"))
-                            .setTheme(new Theme())
-                            .setPadding(5)
-                );
+                .setMargin(5)
+                .Constraints(Constraint.Length(40), Constraint.Fill(1))
+                .Split();
+
+        layout.addChild(newFrame(layout.Area(0), Component.literal("layout1")));
+        layout.addChild(newFrame(layout.Area(1), Component.literal("layout2")));
+
+        frame.addChild(layout);
+
+
         addRenderableWidget(frame);
+    }
+
+    private Frame newFrame(Rect rect,  Component message) {
+        return new Frame(rect, message)
+            .setTheme(new Theme())
+            .setPadding(5);
     }
 }
