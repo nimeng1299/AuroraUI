@@ -14,7 +14,7 @@ public class Layout extends BaseWidget<Layout> {
 
     private int margin = 0;
 
-    private List<Rect> splits = new ArrayList<>();
+    private final List<Rect> splits = new ArrayList<>();
 
     public Layout(BaseWidget<?> parent, Component message) {
         super(parent, message);
@@ -38,6 +38,11 @@ public class Layout extends BaseWidget<Layout> {
         return constraints;
     }
 
+    /**
+     * 设置子项的排列顺序<br>
+     * 默认为{@code Direction.HORIZONTAL}<br>
+     * 另请参阅 {@link Direction}
+     */
     public Layout Direction(Direction direction) {
         this.direction = direction;
         return this;
@@ -47,6 +52,9 @@ public class Layout extends BaseWidget<Layout> {
         return direction;
     }
 
+    /**
+     * 设置子项之间的间隔
+     */
     public Layout setMargin(int margin) {
         this.margin = margin;
         return this;
@@ -56,13 +64,18 @@ public class Layout extends BaseWidget<Layout> {
         return margin;
     }
 
+    /**
+     * 计算所有子项的占比<br>
+     * 只需在构建时计算一次<br>
+     * 用{@code Area(int i)}来获取每个子项所有的大小
+     */
     public Layout Split(){
         splits.clear();
         if(getConstraints().isEmpty()){
             return this;
         }
 
-        int len;
+        int len; //子项总可用的长度
         if(direction == Direction.HORIZONTAL){
             len = getWidth();
         }
@@ -74,13 +87,17 @@ public class Layout extends BaseWidget<Layout> {
             return this;
         }
 
-        List<Integer> s = new ArrayList<>();
+        List<Integer> s = new ArrayList<>(); // 每项占的长度
+        // 先便利一遍，用来占位
         for(Constraint constraint : getConstraints()){
             s.add(0);
         }
 
+        // 先减去所有的margin长度
         len = len - (constraints.size() - 1) * getMargin();
 
+
+        // 先计算固定长度的子项
         for (int i = 0; i < constraints.size(); i++) {
             Constraint constraint = constraints.get(i);
             if(constraint.isLength()){
@@ -95,8 +112,8 @@ public class Layout extends BaseWidget<Layout> {
             }
         }
 
-        int allFill = 0;
-        int fillCount = 0;
+        int allFill = 0;    // 所有Fill的占比，用来计算比例
+        int fillCount = 0;  // 还没计算的Fill个数，最后一项直接用掉剩余空间，防止有空间剩余
         for (int i = 0; i < constraints.size(); i++) {
             Constraint constraint = constraints.get(i);
             if(constraint.isFill()){
@@ -123,6 +140,7 @@ public class Layout extends BaseWidget<Layout> {
             }
         }
 
+        // 计算所有子项的区域
         int _x = getFillRect().x1();
         int _y = getFillRect().y1();
         for (int size : s){
@@ -137,6 +155,11 @@ public class Layout extends BaseWidget<Layout> {
         return this;
     }
 
+    /**
+     * 获取某个子项所占有的区域<br>
+     * 如果没找到就会返回null<br>
+     * 子项的顺序是按照{@code Constraints()}传入的参数顺序来的
+     */
     public Rect Area(int i){
         if (i >= splits.size() || i < 0){
             return null;
