@@ -37,6 +37,14 @@ public record Rect(int x1, int y1, int x2, int y2) {
         return new int[]{x1, y1, width(), height()};
     }
 
+    public boolean contains(int x, int y){
+        return x >= x1 && x <= x2 && y >= y1 && y <= y2;
+    }
+
+    public boolean contains(double x, double y){
+        return x >= x1 && x <= x2 && y >= y1 && y <= y2;
+    }
+
     /**
      * @param padding_list 输入一个4个方向的int数值，顺序为左、上、右、下
      */

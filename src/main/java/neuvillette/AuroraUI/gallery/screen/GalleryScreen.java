@@ -9,6 +9,7 @@ import neuvillette.AuroraUI.api.Rect;
 import neuvillette.AuroraUI.api.Theme;
 import neuvillette.AuroraUI.api.color.Colors;
 import neuvillette.AuroraUI.api.screen.AuroraScreen;
+import neuvillette.AuroraUI.api.widget.Button;
 import neuvillette.AuroraUI.api.widget.Frame;
 import neuvillette.AuroraUI.api.widget.layout.Constraint;
 import neuvillette.AuroraUI.api.widget.layout.Layout;
@@ -51,10 +52,18 @@ public class GalleryScreen extends AuroraScreen {
         Layout layout = new Layout(frame, Component.literal("Frames"))
                 .setTheme(new Theme())
                 .setMargin(5)
-                .Constraints(Constraint.Length(40), Constraint.Fill(1))
+                .Constraints(Constraint.Length(100), Constraint.Fill(1))
                 .Split();
 
-        layout.addChild(newFrame(layout.Area(0), Component.literal("layout1")));
+        Button button = new Button(layout.Area(0), Component.literal("Button"))
+                .setTheme(new Theme())
+                .setOnClick((button1) -> {
+                    var mc = Minecraft.getInstance();
+                    if (mc.player != null) {
+                        mc.gui.getChat().addMessage(Component.literal("§a这是绿色系统消息"));
+                    }
+                });
+        layout.addChild(button);
         layout.addChild(newFrame(layout.Area(1), Component.literal("layout2")));
 
         frame.addChild(layout);

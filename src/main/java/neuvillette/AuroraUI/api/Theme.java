@@ -44,9 +44,9 @@ public class Theme {
     //Sizes
     //xs: 6*base sm:8*base md:10*base lg:12*base xl:14*base
     //Fields
-    public int size_field;
+    public double size_field;
     //Selectors
-    public int size_selector;
+    public double size_selector;
 
     //Border Width
     public int border;
@@ -77,9 +77,27 @@ public class Theme {
         radius_field = 1;
         radius_selector = 1;
 
-        size_field = 4;
-        size_selector = 4;
+        size_field = 1.5;
+        size_selector = 1.5;
 
         border = 1;
+    }
+
+    public static int getSize(double base_size, Size size){
+        return (int) switch (size){
+            case Size.XS ->  base_size * 6;
+            case Size.SM ->  base_size * 8;
+            case Size.MD ->  base_size * 10;
+            case Size.LG ->  base_size * 12;
+            case Size.XL ->  base_size * 14;
+        };
+    }
+
+    public enum Size{
+        XS,
+        SM,
+        MD,
+        LG,
+        XL
     }
 }

@@ -27,10 +27,10 @@ public class Frame extends BaseWidget<Frame> {
 
     @Override
     protected void renderWidget(@NotNull GuiGraphics guiGraphics, int i, int i1, float v) {
-        var rect = getRect();
+        var rect = getFillRect();
 
 
-        Canvas.drawRadiusRectangle(guiGraphics, rect, getTheme().color_base_200.toRGBAColor(border_alpha), getTheme().color_base_300.toRGBAColor(bg_alpha), getTheme().border, getTheme().radius_box);
+        Canvas.drawRadiusRectangle(guiGraphics, rect, getTheme().color_base_100.toRGBAColor(border_alpha), getTheme().color_base_300.toRGBAColor(bg_alpha), getTheme().border, getTheme().radius_box);
 
         super.renderWidget(guiGraphics, i, i1, v);
     }

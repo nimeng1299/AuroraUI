@@ -3,9 +3,9 @@ package neuvillette.AuroraUI.api.widget;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.network.chat.Component;
+import neuvillette.AuroraUI.api.Operation;
 import neuvillette.AuroraUI.api.Rect;
 import neuvillette.AuroraUI.api.Theme;
-import neuvillette.AuroraUI.api.screen.ScreenInfo;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -17,7 +17,6 @@ public abstract class BaseWidget<T extends BaseWidget<T>> extends AbstractWidget
 
     private Theme theme;
     private List<AbstractWidget> children = new ArrayList<>();
-    private ScreenInfo screenInfo;
 
     private int padding_left = 0;
     private int padding_right = 0;
@@ -30,19 +29,17 @@ public abstract class BaseWidget<T extends BaseWidget<T>> extends AbstractWidget
 
     public BaseWidget(Rect rect, Component message) {
         super(rect.x1(), rect.y1(), rect.width(), rect.height(), message);
-        screenInfo = new ScreenInfo();
+        this.setFocused(true);
     }
 
     public BaseWidget(BaseWidget<?> parent, Component message) {
-        this(parent.getRect(), message);
+        this(parent, parent.getRect(), message);
         theme = parent.theme;
-        screenInfo = parent.screenInfo;
     }
 
     public BaseWidget(BaseWidget<?> parent, Rect rect, Component message) {
         this(rect, message);
         theme = parent.theme;
-        screenInfo = parent.screenInfo;
     }
 
     public T setTheme(Theme theme) {
@@ -66,9 +63,6 @@ public abstract class BaseWidget<T extends BaseWidget<T>> extends AbstractWidget
         return (T)this;
     }
 
-    public ScreenInfo getScreenInfo() {
-        return screenInfo;
-    }
 
     /**
      * @return 返回一个四项的数据，分别为左、上、右、下
@@ -115,6 +109,68 @@ public abstract class BaseWidget<T extends BaseWidget<T>> extends AbstractWidget
         setWidth(rect.width());
         setHeight(rect.height());
         return (T)this;
+    }
+
+
+    public void onPress() {
+
+    }
+
+    /**
+     * 当前鼠标键盘的操作是否截断（不传给其他控件）
+     */
+    public boolean canStopMouseOperation(Operation operation, double mouseX, double mouseY, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        for(var c : getChildren()) {
+            c.mouseClicked(mouseX, mouseY, button);
+            if(c instanceof BaseWidget && ((BaseWidget<?>) c).canStopMouseOperation(Operation.MouseClicked, mouseX, mouseY, button)) {
+                return true;
+            }
+        }
+
+        return this.active && this.visible;
+
+    }
+
+    @Override
+    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+        for(var c : getChildren()) {
+            c.mouseReleased(mouseX, mouseY, button);
+            if(c instanceof BaseWidget && ((BaseWidget<?>) c).canStopMouseOperation(Operation.MouseReleased, mouseX, mouseY, button)) {
+                return true;
+            }
+        }
+        return this.isValidClickButton(button);
+    }
+
+    @Override
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+        for(var c : getChildren()) {
+            c.mouseDragged(mouseX, mouseY, button, dragX, dragY);
+            if(c instanceof BaseWidget && ((BaseWidget<?>) c).canStopMouseOperation(Operation.MouseDragged, mouseX, mouseY, button)) {
+                return true;
+            }
+        }
+        return this.isValidClickButton(button);
+    }
+
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+        return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
+    }
+
+    @Override
+    public void mouseMoved(double mouseX, double mouseY) {
+        super.mouseMoved(mouseX, mouseY);
+    }
+
+    @Override
+    public boolean isMouseOver(double mouseX, double mouseY) {
+        return super.isMouseOver(mouseX, mouseY);
     }
 
     @Override
